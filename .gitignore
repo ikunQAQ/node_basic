@@ -1,0 +1,4 @@
+# 项目排除路径
+/1-node-farm/node_modules/
+/3-asynchronous-JS/node_modules/
+/4-Natours/node_modules/

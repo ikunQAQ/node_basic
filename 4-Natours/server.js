@@ -13,24 +13,6 @@ mongoose
   })
   .then(() => console.log("DB connection successfully!"));
 
-
-//
-// const testTour = new Tour({
-//   name: "The Park Camper",
-//   price: 997
-// });
-
-// const testTour = new Tour({
-//   name:'The Forest Hiker',
-//   rating: 4.7,
-//   price:497
-// });
-
-
-// testTour.save().
-// then(content => console.log(content)).
-// catch( err => console.log("ERROR:",err));
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App listening on ${port}...`);

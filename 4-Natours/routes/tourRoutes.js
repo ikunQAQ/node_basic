@@ -5,17 +5,23 @@ const {
   getAllTours,
   getTour,
   updateTour,
-  checkID,
+  // checkID,
   aliasTopTours,
-  checkBody
+  checkBody,
+  getTourStats
 } = require("./../controllers/tourController");
 
 const router = express.Router();
 
-router.param("id", checkID);
+// router.param("id", checkID);
 
-router.route("/top-5-cheap")
+router
+  .route("/top-5-cheap")
   .get(aliasTopTours, getAllTours);
+
+router
+  .route("/tour-status")
+  .get(getTourStats);
 
 router
   .route("/")

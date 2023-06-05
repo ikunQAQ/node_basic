@@ -1,7 +1,7 @@
 class APIFeatures {
   constructor(query, queryString) {
-    this.query = query;
-    this.queryString = queryString;
+    this.query = query;  // query是数据库查询出所有的data
+    this.queryString = queryString; // req.query 传输请求的参数
   }
 
   filter() {
@@ -21,8 +21,8 @@ class APIFeatures {
   }
 
   sort() {
-    if (this.query.sort) {
-      const sortBy = this.queryString.sort.split(",").join(" "); // 第二个标准 在url中用,分割 传入 mongoose用空格分割
+    if (this.queryString.sort) {
+      const sortBy = this.query.sort.split(",").join(" "); // 第二个标准 在url中用,分割 传入 mongoose用空格分割
       this.query = this.query.sort(sortBy);
     } else {
       this.query = this.query.sort("-createdAt");

@@ -133,19 +133,78 @@ exports.getTourStats = async (req, res) => {
         }
       },
       {
-        $sort: { avgPrice:  1}
-      },
+        $sort: { avgPrice: 1 }
+      }
       // {
       //   $match: { _id: { $ne : 'EASY'} }
       // }
-      ]);
+    ]);
     res.status(200).json({
       status: "success",
       data: {
         stats
       }
     });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err
+    });
+  }
+};
 
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+
+    const plan = await Tour.aggregate([
+      {
+        $unwind: "$startDates"
+        //按元素拆开
+      },
+      {
+        $match: {
+          //匹配元素
+          startDates: {
+            $gte: new Date(`${year}-01-01`),
+            $lt: new Date(`${year + 1}-01-01`)
+          }
+        }
+      },
+      {
+        $group:{
+          _id: {
+            $month: '$startDates'
+          },
+            numTourStart :{
+              $sum:1
+            },
+            tours:{
+              $push : '$name'
+            }
+        }
+      },
+      {
+        $addFields:{
+          month: '$_id'
+        }
+      },
+      {
+        $project : { _id : 0 }
+      },
+      {
+        $sort:{ numTourStart: -1 }
+      },
+      {
+        $limit: 12
+      }
+    ]);
+    res.status(200).json({
+      status: "success",
+      data: {
+        plan
+      }
+    });
   } catch (err) {
     res.status(404).json({
       status: "fail",
